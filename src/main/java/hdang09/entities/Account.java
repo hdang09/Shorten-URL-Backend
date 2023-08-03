@@ -1,9 +1,22 @@
 package hdang09.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Account {
+
+    @Id
     private int id;
-    private int firstName;
-    private int lastName;
+    @Column(name = "first_name")
+    @JsonProperty("first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    @JsonProperty("last_name")
+
+    private String lastName;
     private String email;
     private int role;
     private int status;
@@ -12,7 +25,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(int id, int firstName, int lastName, String email, int role, int status, String avatar) {
+    public Account(int id, String firstName, String lastName, String email, int role, int status, String avatar) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,19 +43,19 @@ public class Account {
         this.id = id;
     }
 
-    public int getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(int firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public int getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(int lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 

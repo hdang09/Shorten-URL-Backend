@@ -1,23 +1,29 @@
 package hdang09.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.List;
 
+@Entity
 public class Report {
+
+    @Id
     private int id;
     private int accountId;
     private int totalClicks;
     private int totalLinks;
-    private List<URL> links;
+//    private List<URL> links;
 
     public Report() {
     }
 
-    public Report(int id, int accountId, int totalClicks, int totalLinks, List<URL> links) {
+    public Report(int id, int accountId, int totalClicks, int totalLinks) {
         this.id = id;
         this.accountId = accountId;
         this.totalClicks = totalClicks;
         this.totalLinks = totalLinks;
-        this.links = links;
+//        this.links = links;
     }
 
     public int getId() {
@@ -52,13 +58,13 @@ public class Report {
         this.totalLinks = totalLinks;
     }
 
-    public List<URL> getLinks() {
-        return links;
-    }
-
-    public void setLinks(List<URL> links) {
-        this.links = links;
-    }
+//    public List<URL> getLinks() {
+//        return links;
+//    }
+//
+//    public void setLinks(List<URL> links) {
+//        this.links = links;
+//    }
 
     @Override
     public String toString() {
@@ -67,7 +73,7 @@ public class Report {
                 ", accountId=" + accountId +
                 ", totalClicks=" + totalClicks +
                 ", totalLinks=" + totalLinks +
-                ", links=" + links +
+//                ", links=" + links +
                 '}';
     }
 }

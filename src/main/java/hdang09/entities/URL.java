@@ -1,8 +1,14 @@
 package hdang09.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.Date;
 
+@Entity
 public class URL {
+
+    @Id
     private int id;
     private int accountId;
     private String originLink;
