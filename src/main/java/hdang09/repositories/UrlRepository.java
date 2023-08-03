@@ -1,4 +1,7 @@
 package hdang09.repositories;
 
-public interface UrlRepository {
+import hdang09.entities.URL;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UrlRepository extends CrudRepository<URL, Integer> {
 }
