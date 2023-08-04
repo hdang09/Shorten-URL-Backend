@@ -34,4 +34,8 @@ public class AccountService {
         currentAcc.setRole(role);
         return repo.save(currentAcc);
     }
+
+    public Account getUserById(int accountId) {
+        return repo.getById(accountId);
+    }
 }
