@@ -1,5 +1,6 @@
 package hdang09.services;
 
+import hdang09.constants.Status;
 import hdang09.entities.Account;
 import hdang09.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,11 @@ public class AccountService {
 
     public Account createAccount(Account account) {
         return repo.save(account);
+    }
+
+    public Account updateStatus(Status status, int accountId) {
+        Account currentAcc = repo.getById(accountId);
+        currentAcc.setStatus(status);
+        return repo.save(currentAcc);
     }
 }

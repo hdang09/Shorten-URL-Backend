@@ -34,7 +34,7 @@ public class Account {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
-    private Status status; // Default value for status: ACCEPT
+    private Status status = Status.ACCEPT; // Default value for status: ACCEPT
 
     // TODO: If front-end runs without bug, remove the line below
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

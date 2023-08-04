@@ -12,8 +12,4 @@ public enum Status {
 
     private final String status;
 
-    @Override
-    public String toString() {
-        return String.valueOf(status).toLowerCase();
-    }
 }
