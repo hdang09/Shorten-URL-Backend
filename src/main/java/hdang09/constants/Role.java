@@ -11,8 +11,4 @@ public enum Role {
 
     private final int role;
 
-    @Override
-    public String toString() {
-        return String.valueOf(role);
-    }
 }

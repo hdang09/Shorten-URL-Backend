@@ -5,7 +5,6 @@ import hdang09.constants.Role;
 import hdang09.constants.Status;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.http.HttpStatus;
 
 @Entity
 @Getter
@@ -17,7 +16,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "_id", access = JsonProperty.Access.READ_ONLY)
     private int id;
 
     @Column(name = "first_name")

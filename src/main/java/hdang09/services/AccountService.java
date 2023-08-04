@@ -1,5 +1,6 @@
 package hdang09.services;
 
+import hdang09.constants.Role;
 import hdang09.constants.Status;
 import hdang09.entities.Account;
 import hdang09.repositories.AccountRepository;
@@ -25,6 +26,12 @@ public class AccountService {
     public Account updateStatus(Status status, int accountId) {
         Account currentAcc = repo.getById(accountId);
         currentAcc.setStatus(status);
+        return repo.save(currentAcc);
+    }
+
+    public Account updateRole(Role role, int accountId) {
+        Account currentAcc = repo.getById(accountId);
+        currentAcc.setRole(role);
         return repo.save(currentAcc);
     }
 }
