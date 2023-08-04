@@ -15,6 +15,9 @@ public class AccountService {
 
     public List<Account> getAll() {
         return repo.getAll();
+    }
 
+    public Account createAccount(Account account) {
+        return repo.save(account);
     }
 }

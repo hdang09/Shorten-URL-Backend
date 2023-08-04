@@ -16,8 +16,13 @@ public class AdminController {
     AccountService service;
 
     @GetMapping
-    public List<Account> getAll(@RequestHeader(value = "token", required = false) String token) {
+    public List<Account> getAll(@RequestHeader(value = "token") String token) {
         return service.getAll();
+    }
+
+    @PostMapping("/account")
+    public Account createAccount(@RequestHeader(value = "token") String token, @RequestBody Account account) {
+        return service.createAccount(account);
     }
 
 }
