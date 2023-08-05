@@ -54,4 +54,19 @@ public class UrlService {
         URL url = new URL(accountId, originLink, shortenLink);
         return urlRepository.save(url);
     }
+
+    public URL updateLink(String shortenLink, String linkcode) {
+        URL url = urlRepository.findByShortenLink(shortenLink);
+
+        // Check whether url is existed or not
+        if (url == null) {
+            // TODO: Notify url not found
+            return null;
+        }
+
+        // Update link
+        String newShortenLink = URL_HOST + "/" + linkcode;
+        url.setShortenLink(newShortenLink);
+        return urlRepository.save(url);
+    }
 }

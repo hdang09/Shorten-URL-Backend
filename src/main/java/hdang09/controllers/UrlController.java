@@ -25,4 +25,16 @@ public class UrlController {
     ) {
         return service.shortenLink(originLink, accountId, linkcode);
     }
+
+    // TODO: Consider changing to PutMapping
+    @Operation(summary = "Edit the shorten link")
+    @PostMapping("/update-link")
+    public URL updateLink(
+            @RequestHeader(name = "token", required = false) String token,
+            @RequestParam("shortenLink") String shortenLink,
+            @RequestParam("linkcode") String linkcode
+    ) {
+        return service.updateLink(shortenLink, linkcode);
+    }
+
 }
