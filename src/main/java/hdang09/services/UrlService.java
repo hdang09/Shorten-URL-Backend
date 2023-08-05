@@ -68,34 +68,40 @@ public class UrlService {
 
         // Shorten link
         URL url = new URL(accountId, originLink, shortenLink);
+        // TODO; try-catch in .save() method
         return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully", urlRepository.save(url));
     }
 
-    public URL updateLink(String shortenLink, String linkcode) {
-        URL url = urlRepository.findByShortenLink(shortenLink);
-
+    public Response<URL> updateLink(String shortenLink, String linkcode) {
         // Check whether url exists or not
+        URL url = urlRepository.findByShortenLink(shortenLink);
         if (url == null) {
-            // TODO: Notify url not found
-            return null;
+            return new Response<>(HttpStatus.NOT_FOUND.value(), "Link not found");
+        }
+
+        // Check if shorten link exist
+        boolean isLinkcodeExist = urlRepository.findByShortenLink(shortenLink) != null;
+        if (isLinkcodeExist) {
+            return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
         }
 
         // Update link
         String newShortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
         url.setShortenLink(newShortenLink);
-        return urlRepository.save(url);
+        URL updatedUrl = urlRepository.save(url);
+        return new Response<>(HttpStatus.OK.value(), "The link is updated successfully", updatedUrl);
     }
 
-    public void deleteLink(String shortenLink) {
+    public Response<Void> deleteLink(String shortenLink) {
         URL url = urlRepository.findByShortenLink(shortenLink);
 
         // Check whether url exists or not
         if (url == null) {
-            // TODO: Notify url not found
-            return;
+            return new Response<>(HttpStatus.NOT_FOUND.value(), "Link not found");
         }
 
         // Delete link
         urlRepository.delete(url);
+        return new Response<>(HttpStatus.OK.value(), "The link is deleted successfully");
     }
 }

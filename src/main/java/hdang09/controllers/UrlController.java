@@ -30,7 +30,7 @@ public class UrlController {
     // TODO: Consider changing to PutMapping
     @Operation(summary = "Edit the shorten link")
     @PostMapping("/update-link")
-    public URL updateLink(
+    public Response<URL> updateLink(
             @RequestHeader(name = "token", required = false) String token,
             @RequestParam("shortenLink") String shortenLink,
             @RequestParam("linkcode") String linkcode
@@ -40,11 +40,11 @@ public class UrlController {
 
     @Operation(summary = "Delete the shorten link")
     @DeleteMapping("/delete-link")
-    public void deleteLink(
+    public Response<Void> deleteLink(
             @RequestHeader(name = "token", required = false) String token,
             @RequestParam("shortenLink") String shortenLink
     ) {
-        service.deleteLink(shortenLink);
+        return service.deleteLink(shortenLink);
     }
 
 }
