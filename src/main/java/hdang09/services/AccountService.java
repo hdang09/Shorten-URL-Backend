@@ -76,7 +76,13 @@ public class AccountService {
         return new Response<>(HttpStatus.OK.value(), "Update status successfully", repo.save(account));
     }
 
-    public Account getUserById(int accountId) {
-        return repo.getById(accountId);
+    public Response<Account> getUserById(int accountId) {
+        Account account = repo.getById(accountId);
+
+        if (account == null) {
+            return new Response<>(HttpStatus.NOT_FOUND.value(), "Account does not exist");
+        }
+
+        return new Response<>(HttpStatus.OK.value(), "Get user info successfully", account);
     }
 }

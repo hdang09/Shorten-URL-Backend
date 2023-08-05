@@ -1,6 +1,7 @@
 package hdang09.controllers;
 
 import hdang09.entities.Account;
+import hdang09.entities.Response;
 import hdang09.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +18,7 @@ public class UserController {
 
     @Operation(summary = "Get an information of a user")
     @GetMapping("/{accountId}")
-    public Account getInfoUser(
+    public Response<Account> getInfoUser(
             @RequestHeader(value = "token", required = false) String token, @PathVariable("accountId") int accountId) {
         return service.getUserById(accountId);
     }
