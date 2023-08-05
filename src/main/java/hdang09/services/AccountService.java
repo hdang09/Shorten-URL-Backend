@@ -28,11 +28,18 @@ public class AccountService {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "The user is not exist");
         }
 
-        return new Response<>(HttpStatus.OK.value(), "The user is not exist");
+        return new Response<>(HttpStatus.OK.value(), "Get all user successfully");
     }
 
     public Response<Account> createAccount(Account account) {
         try {
+            // TODO: Validate email, firstname, lastname
+
+            boolean isAccountExists = repo.getByEmail(account.getEmail()) != null;
+            if (isAccountExists) {
+                return new Response<>(HttpStatus.BAD_REQUEST.value(), "Email is exist");
+            }
+
             Account newAccount = repo.save(account);
             return new Response<>(HttpStatus.CREATED.value(), "Account created successfully", newAccount);
         } catch (Exception e) {
