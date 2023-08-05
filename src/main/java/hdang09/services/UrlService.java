@@ -4,6 +4,7 @@ import hdang09.entities.Account;
 import hdang09.entities.URL;
 import hdang09.repositories.AccountRepository;
 import hdang09.repositories.UrlRepository;
+import hdang09.utils.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +15,22 @@ import java.net.URI;
 @Service
 public class UrlService {
 
-    @Autowired
-    UrlRepository urlRepository;
-    @Autowired
-    AccountRepository accountRepository;
+    private final UrlRepository urlRepository;
+    private final AccountRepository accountRepository;
 
-    final String URL_HOST = "http://localhost:8080";
+    @Autowired
+    public UrlService(UrlRepository urlRepository, AccountRepository accountRepository) {
+        this.urlRepository = urlRepository;
+        this.accountRepository = accountRepository;
+    }
 
     public ResponseEntity<Void> redirect(String linkcode) {
-        String shortenLink = URL_HOST  + "/" + linkcode;
+        String shortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
         URL url = urlRepository.findByShortenLink(shortenLink);
 
-        // Check whether url is existed or not
+        // Check whether url exists or not
         if (url == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
         }
 
         // Increase clicks
@@ -41,11 +44,11 @@ public class UrlService {
     }
 
     public URL shortenLink(String originLink, int accountId, String linkcode) {
-        String shortenLink = URL_HOST  + "/" + linkcode;
-        Account acc = accountRepository.getById(accountId);
+        String shortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
+        Account account = accountRepository.getById(accountId);
 
-        // Check whether account is existed or not
-        if (acc == null) {
+        // Check whether account exists or not
+        if (account == null) {
             // TODO: Notify account not found
             return null;
         }
@@ -58,15 +61,28 @@ public class UrlService {
     public URL updateLink(String shortenLink, String linkcode) {
         URL url = urlRepository.findByShortenLink(shortenLink);
 
-        // Check whether url is existed or not
+        // Check whether url exists or not
         if (url == null) {
             // TODO: Notify url not found
             return null;
         }
 
         // Update link
-        String newShortenLink = URL_HOST + "/" + linkcode;
+        String newShortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
         url.setShortenLink(newShortenLink);
         return urlRepository.save(url);
+    }
+
+    public void deleteLink(String shortenLink) {
+        URL url = urlRepository.findByShortenLink(shortenLink);
+
+        // Check whether url exists or not
+        if (url == null) {
+            // TODO: Notify url not found
+            return;
+        }
+
+        // Delete link
+        urlRepository.delete(url);
     }
 }

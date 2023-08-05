@@ -3,6 +3,7 @@ package hdang09.controllers;
 import hdang09.constants.Role;
 import hdang09.constants.Status;
 import hdang09.entities.Account;
+import hdang09.entities.Response;
 import hdang09.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +22,7 @@ public class AdminController {
 
     @Operation(summary = "Get all info user")
     @GetMapping
-    public List<Account> getAll(@RequestHeader(value = "token", required = false) String token) {
+    public Response<List<Account>> getAll(@RequestHeader(value = "token", required = false) String token) {
         return service.getAll();
     }
 

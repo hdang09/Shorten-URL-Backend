@@ -37,4 +37,13 @@ public class UrlController {
         return service.updateLink(shortenLink, linkcode);
     }
 
+    @Operation(summary = "Delete the shorten link")
+    @DeleteMapping("/delete-link")
+    public void deleteLink(
+            @RequestHeader(name = "token", required = false) String token,
+            @RequestParam("shortenLink") String shortenLink
+    ) {
+        service.deleteLink(shortenLink);
+    }
+
 }

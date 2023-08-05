@@ -3,6 +3,7 @@ package hdang09.services;
 import hdang09.constants.Role;
 import hdang09.constants.Status;
 import hdang09.entities.Account;
+import hdang09.entities.Response;
 import hdang09.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,11 +13,21 @@ import java.util.List;
 @Service
 public class AccountService {
 
-    @Autowired
-    AccountRepository repo;
+    private final AccountRepository repo;
 
-    public List<Account> getAll() {
-        return repo.getAll();
+    @Autowired
+    public AccountService(AccountRepository repo) {
+        this.repo = repo;
+    }
+
+    public Response<List<Account>> getAll() {
+        List<Account> accounts = repo.getAll();
+
+        if (accounts.isEmpty()) {
+            return Response.notFound("The user is not exist", accounts);
+        }
+
+        return Response.ok("Successfully get all user account", accounts);
     }
 
     public Account createAccount(Account account) {

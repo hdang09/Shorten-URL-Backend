@@ -1,5 +1,6 @@
 package hdang09.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,10 +19,18 @@ public class URL {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("_id")
     private int id;
+
+    @JsonProperty("account_id")
     private int accountId;
+
+    @JsonProperty("origin_link")
     private String originLink;
+
+    @JsonProperty("shorten_link")
     private String shortenLink;
+
     private int clicks;
     private Date createdAt;
 
