@@ -25,7 +25,7 @@ public class AccountService {
         List<Account> accounts = repo.getAll();
 
         if (accounts.isEmpty()) {
-            return new Response<>(HttpStatus.NOT_FOUND.value(), "The user is not exist");
+            return new Response<>(HttpStatus.NOT_FOUND.value(), "The account list is empty");
         }
 
         return new Response<>(HttpStatus.OK.value(), "Get all user successfully");
@@ -36,6 +36,7 @@ public class AccountService {
             // TODO: Validate email, firstname, lastname
 
             boolean isAccountExists = repo.getByEmail(account.getEmail()) != null;
+
             if (isAccountExists) {
                 return new Response<>(HttpStatus.BAD_REQUEST.value(), "Email is exist");
             }
@@ -47,16 +48,32 @@ public class AccountService {
         }
     }
 
-    public Account updateStatus(Status status, int accountId) {
-        Account currentAcc = repo.getById(accountId);
-        currentAcc.setStatus(status);
-        return repo.save(currentAcc);
+    public Response<Account> updateStatus(Status status, int accountId) {
+        Account account = repo.getById(accountId);
+
+        if (account == null) {
+            return new Response<>(HttpStatus.BAD_REQUEST.value(), "The user does not exist");
+        }
+
+        account.setStatus(status);
+        return new Response<>(HttpStatus.OK.value(), "Update status successfully", repo.save(account));
     }
 
-    public Account updateRole(Role role, int accountId) {
-        Account currentAcc = repo.getById(accountId);
-        currentAcc.setRole(role);
-        return repo.save(currentAcc);
+    public Response<Account> updateRole(Role role, int accountId) {
+        Account account = repo.getById(accountId);
+
+        if (account == null) {
+            return new Response<>(HttpStatus.BAD_REQUEST.value(), "The user does not exist");
+        }
+
+        if (account.getStatus() != Status.ACCEPT) {
+            return new Response<>(
+                    HttpStatus.UNAUTHORIZED.value(), "The user can not update role (status must be accept)"
+            );
+        }
+
+        account.setRole(role);
+        return new Response<>(HttpStatus.OK.value(), "Update status successfully", repo.save(account));
     }
 
     public Account getUserById(int accountId) {

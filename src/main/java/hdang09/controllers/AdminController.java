@@ -44,7 +44,7 @@ public class AdminController {
 
     @Operation(summary = "Update status for user")
     @PutMapping("/status")
-    public Account updateStatus(
+    public Response<Account> updateStatus(
             @RequestHeader(value = "token", required = false) String token,
             @RequestParam Status status,
             @RequestParam int accountId
@@ -54,7 +54,7 @@ public class AdminController {
 
     @Operation(summary = "Update role for user")
     @PutMapping("/role")
-    public Account updateRole(
+    public Response<Account> updateRole(
             @RequestHeader(value = "token", required = false) String token,
             @RequestParam Role role,
             @RequestParam int accountId
