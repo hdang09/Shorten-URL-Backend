@@ -6,6 +6,7 @@ import hdang09.entities.Account;
 import hdang09.entities.Response;
 import hdang09.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,14 +25,19 @@ public class AccountService {
         List<Account> accounts = repo.getAll();
 
         if (accounts.isEmpty()) {
-            return Response.notFound("The user is not exist", accounts);
+            return new Response<>(HttpStatus.NOT_FOUND.value(), "The user is not exist");
         }
 
-        return Response.ok("Successfully get all user account", accounts);
+        return new Response<>(HttpStatus.OK.value(), "The user is not exist");
     }
 
-    public Account createAccount(Account account) {
-        return repo.save(account);
+    public Response<Account> createAccount(Account account) {
+        try {
+            Account newAccount = repo.save(account);
+            return new Response<>(HttpStatus.CREATED.value(), "Account created successfully", newAccount);
+        } catch (Exception e) {
+            return new Response<>(HttpStatus.BAD_REQUEST.value(), "Failed to create account");
+        }
     }
 
     public Account updateStatus(Status status, int accountId) {

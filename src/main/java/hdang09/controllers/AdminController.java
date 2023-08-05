@@ -28,7 +28,7 @@ public class AdminController {
 
     @Operation(summary = "Create account")
     @PostMapping("/account")
-    public Account createAccount(
+    public Response<Account> createAccount(
             @RequestHeader(value = "token", required = false) String token,
 //            @io.swagger.v3.oas.annotations.parameters.RequestBody(
 //                    description = "Create account, enter role user = \"0\", admin = \"1\"",
