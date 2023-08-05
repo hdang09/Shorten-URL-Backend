@@ -4,10 +4,14 @@ import hdang09.services.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.net.URI;
 
 @RestController
 @Tag(name = "URL")
@@ -18,10 +22,7 @@ public class UrlController {
 
     @Operation(summary = "Redirect origin link")
     @GetMapping("/{linkcode}")
-    public RedirectView redirect(@PathVariable("linkcode") String linkcode) {
-        RedirectView redirectView = new RedirectView();
-        String url = service.getOriginLinkByLinkcode(linkcode);
-        redirectView.setUrl(url);
-        return redirectView;
+    public ResponseEntity<Void> redirect(@PathVariable("linkcode") String linkcode) {
+        return service.redirect(linkcode);
     }
 }
