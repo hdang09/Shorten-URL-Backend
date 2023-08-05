@@ -1,6 +1,7 @@
 package hdang09.services;
 
 import hdang09.entities.Account;
+import hdang09.entities.Response;
 import hdang09.entities.URL;
 import hdang09.repositories.AccountRepository;
 import hdang09.repositories.UrlRepository;
@@ -43,19 +44,31 @@ public class UrlService {
         return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
     }
 
-    public URL shortenLink(String originLink, int accountId, String linkcode) {
-        String shortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
-        Account account = accountRepository.getById(accountId);
+    public Response<URL> shortenLink(String originLink, int accountId, String linkcode) {
+        // TODO: Validate originLink, linkcode (.trim())
 
         // Check whether account exists or not
+        Account account = accountRepository.getById(accountId);
         if (account == null) {
-            // TODO: Notify account not found
-            return null;
+            return new Response<>(HttpStatus.NOT_FOUND.value(), "Account not found");
+        }
+
+        // Check duplicate origin link in the account
+        URL duplicateUrl = urlRepository.checkDuplicate(originLink, accountId);
+        if (duplicateUrl != null) {
+            return new Response<>(HttpStatus.OK.value(), "The link created before", duplicateUrl);
+        }
+
+        // Check if shorten link exist
+        String shortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
+        boolean isLinkcodeExist = urlRepository.findByShortenLink(shortenLink) != null;
+        if (isLinkcodeExist) {
+            return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
         }
 
         // Shorten link
         URL url = new URL(accountId, originLink, shortenLink);
-        return urlRepository.save(url);
+        return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully", urlRepository.save(url));
     }
 
     public URL updateLink(String shortenLink, String linkcode) {

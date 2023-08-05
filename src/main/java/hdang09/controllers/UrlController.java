@@ -1,5 +1,6 @@
 package hdang09.controllers;
 
+import hdang09.entities.Response;
 import hdang09.entities.URL;
 import hdang09.services.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +18,7 @@ public class UrlController {
 
     @Operation(summary = "Make the link shorten")
     @PostMapping("/shorten")
-    public URL shortenLink(
+    public Response<URL> shortenLink(
             @RequestHeader(name = "token", required = false) String token,
             @RequestParam("originLink") String originLink,
             @RequestParam("accountId") int accountId,
