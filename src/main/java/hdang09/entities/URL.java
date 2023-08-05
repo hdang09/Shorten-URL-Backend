@@ -25,4 +25,11 @@ public class URL {
     private int clicks;
     private Date createdAt;
 
+    public URL(int accountId, String originLink, String shortenLink) {
+        this.accountId = accountId;
+        this.originLink = originLink;
+        this.shortenLink = shortenLink;
+        this.clicks = 0;
+        this.createdAt = new Date();
+    }
 }
