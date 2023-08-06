@@ -68,7 +68,6 @@ public class UrlService {
 
         // Shorten link
         URL url = new URL(accountId, originLink, shortenLink);
-        // TODO; try-catch in .save() method
         return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully", urlRepository.save(url));
     }
 
