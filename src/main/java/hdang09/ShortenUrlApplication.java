@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
                 description = "An API for API for F-Code Shorten URL."
         )
 )
-@CrossOrigin
 public class ShortenUrlApplication {
 
     public static void main(String[] args) {

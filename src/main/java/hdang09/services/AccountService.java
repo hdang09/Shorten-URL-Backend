@@ -28,7 +28,7 @@ public class AccountService {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "The account list is empty");
         }
 
-        return new Response<>(HttpStatus.OK.value(), "Get all user successfully");
+        return new Response<>(HttpStatus.OK.value(), "Get all user successfully", accounts);
     }
 
     public Response<Account> createAccount(Account account) {
