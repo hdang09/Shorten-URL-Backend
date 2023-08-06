@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "Report")
 @RequestMapping("/api/report")
+@CrossOrigin
 public class ReportController {
 
     @Autowired

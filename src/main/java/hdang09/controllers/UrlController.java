@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "URL")
 @RequestMapping("/api/url")
+@CrossOrigin
 public class UrlController {
 
     @Autowired
