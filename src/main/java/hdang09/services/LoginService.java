@@ -5,6 +5,7 @@ import hdang09.entities.JwtPayload;
 import hdang09.repositories.AccountRepository;
 import hdang09.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,8 @@ public class LoginService {
     @Autowired
     AccountRepository repo;
 
-    final String URL_CLIENT = "http://localhost:3000";
+    @Value("${url.client}")
+    String URL_CLIENT;
 
     public ResponseEntity<Void> login() {
         // Generate token
