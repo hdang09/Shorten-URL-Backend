@@ -16,4 +16,9 @@ public class Response<T> {
         this.code = code;
         this.message = message;
     }
+
+    public Response(Integer code, T data) {
+        this.code = code;
+        this.data = data;
+    }
 }

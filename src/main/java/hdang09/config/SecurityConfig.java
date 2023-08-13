@@ -17,9 +17,10 @@ public class SecurityConfig {
                                 "/swagger-ui/index.html"
                         )
                         .permitAll()
-                )
-                .oauth2Login();
 
+                )
+                .csrf().disable()
+                .oauth2Login();
         return http.build();
     }
 }

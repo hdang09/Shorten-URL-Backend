@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Tag(name = "URL")
-@RequestMapping("/api/url")
+@RequestMapping("/api/url/shorten")
 @CrossOrigin
 public class UrlController {
 
@@ -18,7 +18,7 @@ public class UrlController {
     UrlService service;
 
     @Operation(summary = "Make the link shorten")
-    @PostMapping("/shorten")
+    @PostMapping()
     public Response<URL> shortenLink(
             @RequestHeader(name = "token", required = false) String token,
             @RequestParam("originLink") String originLink,

@@ -68,7 +68,7 @@ public class UrlService {
 
         // Shorten link
         URL url = new URL(accountId, originLink, shortenLink);
-        return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully", urlRepository.save(url));
+        return new Response<>(HttpStatus.CREATED.value(), urlRepository.save(url));
     }
 
     public Response<URL> updateLink(String shortenLink, String linkcode) {
@@ -79,7 +79,8 @@ public class UrlService {
         }
 
         // Check if shorten link exist
-        boolean isLinkcodeExist = urlRepository.findByShortenLink(shortenLink) != null;
+        String newShortLink = UrlUtil.getBaseUrl() + "/" + linkcode;
+        boolean isLinkcodeExist = urlRepository.findByShortenLink(newShortLink) != null;
         if (isLinkcodeExist) {
             return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
         }

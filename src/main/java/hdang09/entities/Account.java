@@ -39,4 +39,13 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String avatar;
 
+    @JsonProperty("status")
+    public String getStatusValue() {
+        return this.status == null ? Status.WAITING.getStatus() : this.status.getStatus();
+    }
+
+    @JsonProperty("role")
+    public int getRoleValue() {
+        return this.role == null ? Role.USER.getRole() : this.role.getRole();
+    }
 }
