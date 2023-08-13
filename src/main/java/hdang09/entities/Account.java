@@ -29,7 +29,7 @@ public class Account {
 
     private String email;
 
-    private Role role;
+    private Role role = Role.USER;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
@@ -39,6 +39,9 @@ public class Account {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String avatar;
 
+//    @OneToMany(mappedBy = "account")
+//    private List<URL> urls;
+
     @JsonProperty("status")
     public String getStatusValue() {
         return this.status == null ? Status.WAITING.getStatus() : this.status.getStatus();
@@ -47,5 +50,12 @@ public class Account {
     @JsonProperty("role")
     public int getRoleValue() {
         return this.role == null ? Role.USER.getRole() : this.role.getRole();
+    }
+
+    public Account(String firstName, String lastName, String email, String avatar) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.avatar = avatar;
     }
 }

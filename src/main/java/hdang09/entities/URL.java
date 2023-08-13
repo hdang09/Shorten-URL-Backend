@@ -1,10 +1,7 @@
 package hdang09.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -33,6 +30,11 @@ public class URL {
 
     private int clicks;
     private Date createdAt;
+
+//    @ManyToOne
+//    @JoinColumn(name = "account_id", referencedColumnName = "id") // Use consistent logical column name
+//    private Account account;
+
 
     public URL(int accountId, String originLink, String shortenLink) {
         this.accountId = accountId;
