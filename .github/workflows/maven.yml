@@ -28,8 +28,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Create application.properties file
+      env:
+        APP_PROPERTIES_PATH: ./src/main/resources/application.properties
       run: |
-        touch ./src/main/resources/application.properties
-        echo "${{ secrets.APP_PROPERTIES }}" >> ./src/main/resources/application.properties
+        touch $APP_PROPERTIES_PATH
+        echo "${{ secrets.APP_PROPERTIES }}" >> $APP_PROPERTIES_PATH
     - name: Build with Maven
       run: mvn clean install
