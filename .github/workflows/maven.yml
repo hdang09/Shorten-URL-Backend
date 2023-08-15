@@ -47,3 +47,6 @@ jobs:
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Run Docker image
+      run: docker run -p 8080:8080 hdang09/shorten-url
