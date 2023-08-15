@@ -5,8 +5,8 @@ import hdang09.entities.Response;
 import hdang09.entities.URL;
 import hdang09.repositories.AccountRepository;
 import hdang09.repositories.UrlRepository;
-import hdang09.utils.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,9 @@ public class UrlService {
     private final UrlRepository urlRepository;
     private final AccountRepository accountRepository;
 
+    @Value("${url.host}")
+    String URL_HOST;
+
     @Autowired
     public UrlService(UrlRepository urlRepository, AccountRepository accountRepository) {
         this.urlRepository = urlRepository;
@@ -26,7 +29,7 @@ public class UrlService {
     }
 
     public ResponseEntity<Void> redirect(String linkcode) {
-        String shortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
+        String shortenLink = URL_HOST + "/" + linkcode;
         URL url = urlRepository.findByShortenLink(shortenLink);
 
         // Check whether url exists or not
@@ -60,7 +63,7 @@ public class UrlService {
         }
 
         // Check if shorten link exist
-        String shortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
+        String shortenLink = URL_HOST + "/" + linkcode;
         boolean isLinkcodeExist = urlRepository.findByShortenLink(shortenLink) != null;
         if (isLinkcodeExist) {
             return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
@@ -79,14 +82,14 @@ public class UrlService {
         }
 
         // Check if shorten link exist
-        String newShortLink = UrlUtil.getBaseUrl() + "/" + linkcode;
+        String newShortLink = URL_HOST + "/" + linkcode;
         boolean isLinkcodeExist = urlRepository.findByShortenLink(newShortLink) != null;
         if (isLinkcodeExist) {
             return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
         }
 
         // Update link
-        String newShortenLink = UrlUtil.getBaseUrl() + "/" + linkcode;
+        String newShortenLink = URL_HOST + "/" + linkcode;
         url.setShortenLink(newShortenLink);
         URL updatedUrl = urlRepository.save(url);
         return new Response<>(HttpStatus.OK.value(), "The link is updated successfully", updatedUrl);
