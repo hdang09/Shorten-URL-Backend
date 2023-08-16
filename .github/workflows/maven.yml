@@ -38,6 +38,9 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Kill process port 8080
+      run: sudo kill -9 `sudo lsof -t -i:8080`
+
 #    - name: Execute JAR file
 #      env:
 #        JAR_FILE_PATH: /home/ubuntu/actions-runner/_work/Shorten-URL-Backend/Shorten-URL-Backend/target/shorten.jar
