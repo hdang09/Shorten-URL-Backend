@@ -44,7 +44,7 @@ jobs:
 
   build-maven:
     runs-on: self-hosted
-    needs: build-docker-image
+    needs: set-up-jdk
     steps:
     - name: Create application.properties file
       env:
