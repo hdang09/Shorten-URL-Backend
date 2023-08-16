@@ -38,8 +38,11 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+#    - name: Start application using systemctl
+#      run: sudo systemctl restart shorten
+
 #    - name: Kill process port 8080
-#      run: sudo kill -9 `sudo lsof -t -i:8080`
+#      run: sudo kill -9 $(sudo lsof -t -i:8080)
 
 #    - name: Execute JAR file
 #      env:
