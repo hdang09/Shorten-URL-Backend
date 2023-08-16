@@ -53,7 +53,7 @@ jobs:
     - name: Run JAR file
       env:
         JAR_FILE_PATH: /home/ubuntu/actions-runner/_work/Shorten-URL-Backend/Shorten-URL-Backend/target/shorten.jar
-      run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar $JAR_FILE_PATH
+      run: sudo java -jar $JAR_FILE_PATH
 
 #    - name: Run Docker image
 #      run: docker run -p 8080:8080 hdang09/shorten-url
