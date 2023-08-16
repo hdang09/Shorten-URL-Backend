@@ -21,13 +21,13 @@ public class AdminController {
     @Autowired
     AccountService service;
 
-    @Operation(summary = "Get all info users")
+    @Operation(summary = "Get all info user")
     @GetMapping
     public Response<List<Account>> getAll(@RequestHeader(value = "token", required = false) String token) {
         return service.getAll();
     }
 
-    @Operation(summary = "Create account")
+    @Operation(summary = "Create an account")
     @PostMapping("/account")
     public Response<Account> createAccount(
             @RequestHeader(value = "token", required = false) String token,
