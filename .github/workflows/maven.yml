@@ -15,8 +15,20 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build & push Dockerfile image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: hdang09/shorten-url
+        tags: v1, latest
+        registry: docker.io
+        dockerfile: Dockerfile
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
+  build-maven:
     runs-on: self-hosted
 
     steps:
@@ -38,15 +50,10 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
-    - name: Build & push Dockerfile image
-      uses: mr-smithers-excellent/docker-build-push@v6
-      with:
-        image: hdang09/shorten-url
-        tags: v1, latest
-        registry: docker.io
-        dockerfile: Dockerfile
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Run JAR file
+      env:
+        JAR_FILE_PATH: /home/ubuntu/actions-runner/_work/Shorten-URL-Backend/Shorten-URL-Backend/target/shorten.jar
+      run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar $JAR_FILE_PATH
 
-    - name: Run Docker image
-      run: docker run -p 8080:8080 hdang09/shorten-url
+#    - name: Run Docker image
+#      run: docker run -p 8080:8080 hdang09/shorten-url
