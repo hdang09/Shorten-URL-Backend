@@ -21,7 +21,7 @@ public class AdminController {
     @Autowired
     AccountService service;
 
-    @Operation(summary = "Get all info user")
+    @Operation(summary = "Get all info users")
     @GetMapping
     public Response<List<Account>> getAll(@RequestHeader(value = "token", required = false) String token) {
         return service.getAll();
