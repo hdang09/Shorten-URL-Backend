@@ -75,6 +75,6 @@ jobs:
       - name: Start Docker image
         run: |
           touch start.sh
-          echo "sudo docker run --name shorten-url-latest -p 8080:8080 hdang09/shorten-url" >> start.sh
+          echo "sudo docker run --name shorten-url-latest -d -p 8080:8080 hdang09/shorten-url" >> start.sh
           sudo chmod +x ./start.sh
           ./start.sh
