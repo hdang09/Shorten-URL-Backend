@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @OpenAPIDefinition(
         info = @Info(
                 title = "F-Code Shorten URL API",
-                version = "1.0.1",
-                description = "An API for transform long, ugly links into nice, short URLs."
+                version = "1.0.0",
+                description = "An API for transform long, ugly links into nice, short URLs and manage users."
         )
 )
 public class ShortenUrlApplication {

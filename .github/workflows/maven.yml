@@ -66,8 +66,8 @@ jobs:
     needs: deploy-image
 
     steps:
-      - name: Stop current container
-        run: sudo docker stop shorten-url-latest
+      - name: Remove current container
+        run: sudo docker rm shorten-url-latest
       - name: Pull latest image
         run: sudo docker pull hdang09/shorten-url
       - name: Start Docker image
