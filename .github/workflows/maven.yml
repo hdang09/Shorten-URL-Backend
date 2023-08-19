@@ -36,6 +36,19 @@ jobs:
         touch $APP_PROPERTIES_PATH
         echo "${{ secrets.APP_PROPERTIES }}" >> $APP_PROPERTIES_PATH
 
+    - name: Build with Maven
+      run: mvn clean install
+
+#    - name: Restart application in systemctl
+#      run: sudo systemctl restart shorten
+
+#    - name: Kill process port 8080
+#      run: sudo kill -9 $(sudo lsof -t -i:8080)
+
+#    - name: Execute JAR file
+#      env:
+#        JAR_FILE_PATH: /home/ubuntu/actions-runner/_work/Shorten-URL-Backend/Shorten-URL-Backend/target/shorten.jar
+#      run: sudo java -jar $JAR_FILE_PATH
 
     - name: Build & push Dockerfile image
       uses: mr-smithers-excellent/docker-build-push@v6
@@ -54,5 +67,5 @@ jobs:
 
     steps:
       - name: Run Docker image
-        run: sudo docker run -p 8080:8080 hdang09/shorten-url
+        run: docker run -p 8080:8080 hdang09/shorten-url
 
