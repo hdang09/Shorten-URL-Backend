@@ -71,4 +71,8 @@ jobs:
       - name: Pull latest image
         run: sudo docker pull hdang09/shorten-url
       - name: Start Docker image
-        run: sudo docker run --name shorten-url-latest -p 8080:8080 hdang09/shorten-url
+        run: |
+          touch start.sh
+          echo "sudo docker run --name shorten-url-latest -p 8080:8080 hdang09/shorten-url" >> start.sh
+          sudo chmod +x ./start.sh
+          ./start.sh
