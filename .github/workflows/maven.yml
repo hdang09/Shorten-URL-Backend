@@ -66,6 +66,7 @@ jobs:
     needs: deploy-image
 
     steps:
-      - name: Run Docker image
+      - name: Pull latest image
+        run: sudo docker pull hdang09/shorten-url
+      - name: Start Docker image
         run: sudo docker run -p 8080:8080 hdang09/shorten-url
-
