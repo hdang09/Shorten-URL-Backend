@@ -66,15 +66,11 @@ jobs:
     needs: deploy-image
 
     steps:
-      - name: Stop the current container
-        run: sudo docker stop shorten-url-latest
-      - name: Remove current container
-        run: sudo docker rm shorten-url-latest
+      - name: Stop and Remove current container
+        run: |
+          sudo docker stop shorten-url-latest || true
+          sudo docker rm shorten-url-latest || true
       - name: Pull latest image
         run: sudo docker pull hdang09/shorten-url
       - name: Start Docker image
-        run: |
-          touch start.sh
-          echo "sudo docker run --name shorten-url-latest -d -p 8080:8080 hdang09/shorten-url" >> start.sh
-          sudo chmod +x ./start.sh
-          ./start.sh
+        run: sudo docker run --name shorten-url-latest -d -p 8080:8080 hdang09/shorten-url
