@@ -17,7 +17,7 @@ public class ReportController {
     @Autowired
     ReportService service;
 
-    @Operation(summary = "Get an report total click and link of a user")
+    @Operation(summary = "Get a report total click and link of a user")
     @GetMapping("{accountId}")
     public Response<Report> getByAccountId(
             @RequestHeader(value = "token", required = false) String token,
@@ -26,7 +26,7 @@ public class ReportController {
         return service.getByAccountId(accountId);
     }
 
-    @Operation(summary = "Get an report total click and link of a user")
+    @Operation(summary = "Get a report total click and link of a user")
     @GetMapping("{accountId}/{year}/{month}")
     public Response<Report> getByAccountIdAndDate(
             @RequestHeader(value = "token", required = false) String token,
