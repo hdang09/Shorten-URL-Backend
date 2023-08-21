@@ -42,11 +42,13 @@ public class Account {
 //    @OneToMany(mappedBy = "account")
 //    private List<URL> urls;
 
+    @Enumerated(EnumType.STRING)
     @JsonProperty("status")
     public String getStatusValue() {
         return this.status == null ? Status.WAITING.getStatus() : this.status.getStatus();
     }
 
+    @Enumerated(EnumType.STRING)
     @JsonProperty("role")
     public int getRoleValue() {
         return this.role == null ? Role.USER.getRole() : this.role.getRole();
