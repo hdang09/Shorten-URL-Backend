@@ -20,7 +20,7 @@ public class UserController {
     @Operation(summary = "Get an information of a user")
     @GetMapping("/{accountId}")
     public Response<Account> getInfoUser(
-            @RequestHeader(value = "token", required = false) String token, @PathVariable("accountId") int accountId) {
+            @RequestHeader(value = "token") String token, @PathVariable("accountId") int accountId) {
         return service.getUserById(accountId);
     }
 }

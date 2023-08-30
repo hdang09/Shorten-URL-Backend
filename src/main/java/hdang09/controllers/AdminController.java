@@ -23,14 +23,14 @@ public class AdminController {
 
     @Operation(summary = "Get all info users")
     @GetMapping
-    public Response<List<Account>> getAll(@RequestHeader(value = "token", required = false) String token) {
+    public Response<List<Account>> getAll(@RequestHeader(value = "token") String token) {
         return service.getAll();
     }
 
     @Operation(summary = "Create an account")
     @PostMapping("/account")
     public Response<Account> createAccount(
-            @RequestHeader(value = "token", required = false) String token,
+            @RequestHeader(value = "token") String token,
 //            @io.swagger.v3.oas.annotations.parameters.RequestBody(
 //                    description = "Create account, enter role user = \"0\", admin = \"1\"",
 //                    required = true,
@@ -46,7 +46,7 @@ public class AdminController {
     @Operation(summary = "Update status for user")
     @PutMapping("/status")
     public Response<Account> updateStatus(
-            @RequestHeader(value = "token", required = false) String token,
+            @RequestHeader(value = "token") String token,
             @RequestParam Status status,
             @RequestParam int accountId
     ) {
@@ -56,7 +56,7 @@ public class AdminController {
     @Operation(summary = "Update role for user")
     @PutMapping("/role")
     public Response<Account> updateRole(
-            @RequestHeader(value = "token", required = false) String token,
+            @RequestHeader(value = "token") String token,
             @RequestParam Role role,
             @RequestParam int accountId
     ) {

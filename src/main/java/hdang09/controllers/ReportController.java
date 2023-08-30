@@ -20,7 +20,7 @@ public class ReportController {
     @Operation(summary = "Get a report total click and link of a user")
     @GetMapping("{accountId}")
     public Response<Report> getByAccountId(
-            @RequestHeader(value = "token", required = false) String token,
+            @RequestHeader(value = "token") String token,
             @PathVariable("accountId") int accountId
     ) {
         return service.getByAccountId(accountId);
@@ -29,7 +29,7 @@ public class ReportController {
     @Operation(summary = "Get a report total click and link of a user")
     @GetMapping("{accountId}/{year}/{month}")
     public Response<Report> getByAccountIdAndDate(
-            @RequestHeader(value = "token", required = false) String token,
+            @RequestHeader(value = "token") String token,
             @PathVariable("accountId") int accountId,
             @PathVariable("year") int year,
             @PathVariable("month") int month
