@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @Tag(name = "Redirect")
 @CrossOrigin
@@ -17,6 +18,11 @@ public class RedirectController {
 
     @Autowired
     UrlService service;
+
+    @GetMapping("/")
+    public ResponseEntity<Void> home() {
+        return service.home();
+    }
 
     @Operation(summary = "Redirect origin link")
     @GetMapping("/{linkcode}")

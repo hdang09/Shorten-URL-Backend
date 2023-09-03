@@ -28,6 +28,12 @@ public class UrlService {
         this.accountRepository = accountRepository;
     }
 
+    public ResponseEntity<Void> home() {
+        final String PORTFOLIO_PAGE = "https://portfolio.hdang09.site";
+        URI uri = URI.create(PORTFOLIO_PAGE);
+        return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
+    }
+
     public ResponseEntity<Void> redirect(String linkcode) {
         String shortenLink = URL_HOST + "/" + linkcode;
         URL url = urlRepository.findByShortenLink(shortenLink);

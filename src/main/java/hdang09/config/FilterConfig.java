@@ -1,6 +1,6 @@
 package hdang09.config;
 
-import hdang09.AuthenticationTokenFilter;
+import hdang09.filter.AuthenticationTokenFilter;
 import hdang09.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
