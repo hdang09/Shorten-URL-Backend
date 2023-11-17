@@ -20,27 +20,12 @@ public class GlobalExceptionHandler {
         String errorMessage = firstError.getDefaultMessage();
 
         ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), errorMessage);
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception ex) {
         ExceptionResponse response = new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
-        return ResponseEntity.internalServerError().body(response);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-
-    // Add more exception handling methods as needed for specific exceptions
-    // For example:
-    /*
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
-        // Create an error response object
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setMessage("Resource not found");
-        // Set other properties of the error response as needed
-
-        // Return the error response with an appropriate HTTP status code
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-    */
 }

@@ -22,7 +22,6 @@ public class UrlController {
     @Operation(summary = "Make the link shorten")
     @PostMapping()
     public Response<URL> shortenLink(
-//            @RequestHeader(value = "token") String token,
             @RequestParam("originLink") String originLink,
             @RequestParam("accountId") int accountId,
             @RequestParam("linkcode") String linkcode
@@ -34,7 +33,6 @@ public class UrlController {
     @Operation(summary = "Edit the shorten link")
     @PostMapping("/update-link")
     public Response<URL> updateLink(
-            @RequestHeader(value = "token") String token,
             @RequestParam("shortenLink") String shortenLink,
             @RequestParam("linkcode") String linkcode
     ) {
@@ -43,10 +41,7 @@ public class UrlController {
 
     @Operation(summary = "Delete the shorten link")
     @DeleteMapping("/delete-link")
-    public Response<Void> deleteLink(
-            @RequestHeader(value = "token") String token,
-            @RequestParam("shortenLink") String shortenLink
-    ) {
+    public Response<Void> deleteLink(@RequestParam("shortenLink") String shortenLink) {
         return service.deleteLink(shortenLink);
     }
 

@@ -25,6 +25,5 @@ public class LoginController {
     @GetMapping("/google")
     public ResponseEntity<Void> login() {
         return service.login();
-
     }
 }

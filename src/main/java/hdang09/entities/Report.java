@@ -16,7 +16,7 @@ public class Report {
     private int accountId;
     private Long totalClicks;
     private Long totalLinks;
-    private List<URL> links;
+    private List<URL> links; // TODO: @OneToMany
 
     public Report(int accountId, Long totalClicks, Long totalLinks) {
         this.accountId = accountId;

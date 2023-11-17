@@ -16,7 +16,9 @@ import java.util.*;
 @Component
 public class AuthorizationFilter extends OncePerRequestFilter {
 
-    private final List<String> excludedUrls = Arrays.asList("/swagger-ui", "/auth", "/v3/api-docs", "/");
+    private static final String PORTFOLIO_PAGE = "/";
+
+    private final List<String> excludedUrls = Arrays.asList("/swagger-ui", "/auth", "/v3/api-docs", "/api/auth/google");
 
     private final JwtUtil jwtUtil;
 
@@ -46,6 +48,11 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             return;
         }
 
+        if (!authHeader.startsWith("Bearer ") || authHeader.length() > 500) {
+            setResponseUnAuthorized(response, "Token invalid");
+            return;
+        }
+
         try {
             String token = authHeader.substring(7);
             if (jwtUtil.isTokenExpired(token)) {
@@ -67,6 +74,8 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean isUrlExcluded(String url) {
+        if (url.equals(PORTFOLIO_PAGE)) return true;
+
         for (String excludedUrl : excludedUrls) {
             if (url.startsWith(excludedUrl)) {
                 return true;

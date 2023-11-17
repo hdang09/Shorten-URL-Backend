@@ -110,4 +110,9 @@ public class JwtUtil {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    public Map<String, Object> extractPayload(String token) {
+        Map<String, Object> payloadMap = extractClaim(token, claims -> claims.get("payload", Map.class));
+        return payloadMap;
+    }
 }

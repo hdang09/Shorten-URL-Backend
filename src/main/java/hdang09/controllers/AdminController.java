@@ -27,16 +27,16 @@ public class AdminController {
     @Autowired
     AccountService service;
 
+    // TODO: Authorization role with Spring Security and UserDetails
     @Operation(summary = "Get all info users")
     @GetMapping
-    public Response<List<Account>> getAll(@RequestHeader(value = "token") String token) {
+    public Response<List<Account>> getAll() {
         return service.getAll();
     }
 
     @Operation(summary = "Create an account")
     @PostMapping("/account")
     public Response<Account> createAccount(
-            @RequestHeader(value = "token") String token,
             @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Create account, enter role user = \"0\", admin = \"1\"",
                     required = true,
@@ -50,19 +50,13 @@ public class AdminController {
 
     @Operation(summary = "Update status for user")
     @PutMapping("/status")
-    public Response<Account> updateStatus(
-            @RequestParam Status status,
-            @RequestParam int accountId
-    ) {
+    public Response<Account> updateStatus(@RequestParam Status status, @RequestParam int accountId) {
         return service.updateStatus(status, accountId);
     }
 
     @Operation(summary = "Update role for user")
     @PutMapping("/role")
-    public Response<Account> updateRole(
-            @RequestParam Role role,
-            @RequestParam int accountId
-    ) {
+    public Response<Account> updateRole(@RequestParam Role role, @RequestParam int accountId) {
         return service.updateRole(role, accountId);
     }
 

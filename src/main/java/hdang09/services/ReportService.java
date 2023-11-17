@@ -21,7 +21,6 @@ public class ReportService {
     @Autowired
     AccountRepository accountRepository;
 
-
     public Response<Report> getByAccountId(int accountId) {
         Account account = accountRepository.getById(accountId);
 

@@ -11,5 +11,4 @@ public enum Status {
     ACCEPT("accept");
 
     private final String status;
-
 }
