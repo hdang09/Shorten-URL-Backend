@@ -30,7 +30,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, java.io.IOException {
-        // Bypass OPTIONS method
         if (request.getMethod().equals(HttpMethod.OPTIONS.name())) {
             filterChain.doFilter(request, response);
             return;
