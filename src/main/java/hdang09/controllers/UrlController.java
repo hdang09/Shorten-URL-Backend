@@ -4,6 +4,7 @@ import hdang09.entities.Response;
 import hdang09.entities.URL;
 import hdang09.services.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "URL")
 @RequestMapping("/api/url/shorten")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class UrlController {
 
     @Autowired
@@ -20,7 +22,7 @@ public class UrlController {
     @Operation(summary = "Make the link shorten")
     @PostMapping()
     public Response<URL> shortenLink(
-            @RequestHeader(value = "token") String token,
+//            @RequestHeader(value = "token") String token,
             @RequestParam("originLink") String originLink,
             @RequestParam("accountId") int accountId,
             @RequestParam("linkcode") String linkcode

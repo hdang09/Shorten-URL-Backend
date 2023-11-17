@@ -2,11 +2,16 @@ package hdang09.controllers;
 
 import hdang09.constants.Role;
 import hdang09.constants.Status;
+import hdang09.dto.CreateAccountDTO;
 import hdang09.entities.Account;
 import hdang09.entities.Response;
 import hdang09.services.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +21,7 @@ import java.util.List;
 @RequestMapping("/api/admin")
 @Tag(name = "Admin")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class AdminController {
 
     @Autowired
@@ -31,14 +37,13 @@ public class AdminController {
     @PostMapping("/account")
     public Response<Account> createAccount(
             @RequestHeader(value = "token") String token,
-//            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-//                    description = "Create account, enter role user = \"0\", admin = \"1\"",
-//                    required = true,
-//                    content = @Content(
-//                            schema = @Schema(implementation = Account.class)
-//                    )
-//            ) Account account
-            @RequestBody Account account
+            @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Create account, enter role user = \"0\", admin = \"1\"",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = CreateAccountDTO.class)
+                    )
+            ) CreateAccountDTO account
     ) {
         return service.createAccount(account);
     }
@@ -46,7 +51,6 @@ public class AdminController {
     @Operation(summary = "Update status for user")
     @PutMapping("/status")
     public Response<Account> updateStatus(
-            @RequestHeader(value = "token") String token,
             @RequestParam Status status,
             @RequestParam int accountId
     ) {
@@ -56,7 +60,6 @@ public class AdminController {
     @Operation(summary = "Update role for user")
     @PutMapping("/role")
     public Response<Account> updateRole(
-            @RequestHeader(value = "token") String token,
             @RequestParam Role role,
             @RequestParam int accountId
     ) {

@@ -16,8 +16,10 @@ import java.net.URI;
 @Service
 public class UrlService {
 
+    private static final String PORTFOLIO_PAGE = "https://portfolio.hdang09.tech";
     private final UrlRepository urlRepository;
     private final AccountRepository accountRepository;
+
 
     @Value("${url.host}")
     String URL_HOST;
@@ -29,14 +31,12 @@ public class UrlService {
     }
 
     public ResponseEntity<Void> home() {
-        final String PORTFOLIO_PAGE = "https://portfolio.hdang09.site";
         URI uri = URI.create(PORTFOLIO_PAGE);
         return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
     }
 
     public ResponseEntity<Void> redirect(String linkcode) {
-        String shortenLink = URL_HOST + "/" + linkcode;
-        URL url = urlRepository.findByShortenLink(shortenLink);
+        URL url = urlRepository.findByShortenLink(linkcode);
 
         // Check whether url exists or not
         if (url == null) {

@@ -1,6 +1,6 @@
 package hdang09.config;
 
-import hdang09.filter.AuthenticationTokenFilter;
+import hdang09.filter.AuthorizationFilter;
 import hdang09.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -15,10 +15,10 @@ public class FilterConfig {
     private JwtUtil jwtUtil;
 
     @Bean
-    public FilterRegistrationBean<AuthenticationTokenFilter> authenticationTokenFilter() {
-        FilterRegistrationBean<AuthenticationTokenFilter> registrationBean = new FilterRegistrationBean<>();
+    public FilterRegistrationBean<AuthorizationFilter> authenticationTokenFilter() {
+        FilterRegistrationBean<AuthorizationFilter> registrationBean = new FilterRegistrationBean<>();
 
-        registrationBean.setFilter(new AuthenticationTokenFilter(jwtUtil));
+        registrationBean.setFilter(new AuthorizationFilter(jwtUtil));
         registrationBean.addUrlPatterns("/api/*");
 
         return registrationBean;

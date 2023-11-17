@@ -10,5 +10,4 @@ public enum Role {
     ADMIN(1);
 
     private final int role;
-
 }

@@ -14,12 +14,12 @@ public class JwtPayload {
     // TODO: Fix 'String' type of _id and role (Add @AllArgsCon...)
     public String _id;
     public String email;
-    public String role;
+    public int role;
 
     public JwtPayload(int _id, String email, Role role) {
         this._id = String.valueOf(_id);
         this.email = email;
-        this.role = String.valueOf(role.getRole());
+        this.role = role.getRole();
     }
 
     public Map<String, Object> toMap() {
