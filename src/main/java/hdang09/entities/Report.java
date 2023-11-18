@@ -1,6 +1,5 @@
 package hdang09.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -12,11 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Report {
-    @JsonProperty("account_id")
     private int accountId;
     private Long totalClicks;
     private Long totalLinks;
-    private List<URL> links; // TODO: @OneToMany
+    private List<URL> links;
 
     public Report(int accountId, Long totalClicks, Long totalLinks) {
         this.accountId = accountId;

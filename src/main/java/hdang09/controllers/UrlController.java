@@ -6,6 +6,7 @@ import hdang09.services.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,27 +23,28 @@ public class UrlController {
     @Operation(summary = "Make the link shorten")
     @PostMapping()
     public Response<URL> shortenLink(
+            HttpServletRequest request,
             @RequestParam("originLink") String originLink,
-            @RequestParam("accountId") int accountId,
             @RequestParam("linkcode") String linkcode
     ) {
-        return service.shortenLink(originLink, accountId, linkcode);
+        return service.shortenLink(request, originLink, linkcode);
     }
 
     // TODO: Consider changing to PutMapping
     @Operation(summary = "Edit the shorten link")
     @PostMapping("/update-link")
     public Response<URL> updateLink(
+            HttpServletRequest request,
             @RequestParam("shortenLink") String shortenLink,
             @RequestParam("linkcode") String linkcode
     ) {
-        return service.updateLink(shortenLink, linkcode);
+        return service.updateLink(request, shortenLink, linkcode);
     }
 
     @Operation(summary = "Delete the shorten link")
     @DeleteMapping("/delete-link")
-    public Response<Void> deleteLink(@RequestParam("shortenLink") String shortenLink) {
-        return service.deleteLink(shortenLink);
+    public Response<Void> deleteLink(HttpServletRequest request, @RequestParam("shortenLink") String shortenLink) {
+        return service.deleteLink(request, shortenLink);
     }
 
 }

@@ -12,9 +12,6 @@ public interface AccountRepository extends CrudRepository<Account, Integer> {
     @Query("SELECT a FROM Account a")
     List<Account> getAll();
 
-    @Query("SELECT a FROM Account a WHERE a.id = :id")
-    Account getById(@Param("id") int id);
-
     @Query("SELECT a from Account a WHERE a.email = :email")
     Account getByEmail(@Param("email") String email);
 }

@@ -9,15 +9,15 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class JwtPayload {
-    // TODO: Fix 'String' type of _id and role (Add @AllArgsCon...)
-    public String _id;
+    public int id;
     public String email;
     public int role;
 
-    public JwtPayload(int _id, String email, Role role) {
-        this._id = String.valueOf(_id);
+    public JwtPayload(int id, String email, Role role) {
+        this.id = id;
         this.email = email;
         this.role = role.getRole();
     }

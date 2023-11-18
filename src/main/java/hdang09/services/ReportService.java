@@ -22,7 +22,7 @@ public class ReportService {
     AccountRepository accountRepository;
 
     public Response<Report> getByAccountId(int accountId) {
-        Account account = accountRepository.getById(accountId);
+        Account account = accountRepository.findById(accountId).orElse(null);
 
         if (account == null) {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "Account does not exist");
@@ -39,7 +39,7 @@ public class ReportService {
     }
 
     public Response<Report> getByAccountIdAndDate(int accountId, int year, int month) {
-        Account account = accountRepository.getById(accountId);
+        Account account = accountRepository.findById(accountId).orElse(null);
 
         if (account == null) {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "Account does not exist");

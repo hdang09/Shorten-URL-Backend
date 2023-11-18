@@ -16,8 +16,6 @@ import java.util.*;
 @Component
 public class AuthorizationFilter extends OncePerRequestFilter {
 
-    private static final String PORTFOLIO_PAGE = "/";
-
     private final List<String> excludedUrls = Arrays.asList("/swagger-ui", "/auth", "/v3/api-docs", "/api/auth/google");
 
     private final JwtUtil jwtUtil;
@@ -36,6 +34,11 @@ public class AuthorizationFilter extends OncePerRequestFilter {
         }
 
         String requestPath = request.getRequestURI().substring(request.getContextPath().length());
+        if (!requestPath.startsWith("/api")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if (isUrlExcluded(requestPath)) {
             filterChain.doFilter(request, response);
             return;
@@ -73,8 +76,6 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean isUrlExcluded(String url) {
-        if (url.equals(PORTFOLIO_PAGE)) return true;
-
         for (String excludedUrl : excludedUrls) {
             if (url.startsWith(excludedUrl)) {
                 return true;
