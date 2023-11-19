@@ -42,12 +42,13 @@ public class URL {
     @JsonBackReference
     private Account account;
 
-    public URL(Account account, String originLink, String shortenLink) {
+    public URL(Account account, String originLink, String shortenLink, String title) {
         this.account = account;
         this.originLink = originLink;
         this.shortenLink = shortenLink;
         this.clicks = 0;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.title = title;
     }
 }

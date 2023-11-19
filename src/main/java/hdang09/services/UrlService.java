@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.jsoup.Jsoup;
 
+import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
 
@@ -82,9 +84,17 @@ public class UrlService {
             return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
         }
 
-        // Shorten link
-        URL url = new URL(account, originLink, linkcode.trim());
+        //Get title from document object.
+        String title;
+        try {
+            title = Jsoup.connect(originLink.trim()).get().title();
+        } catch (IOException e) {
+            title = "Shorten URL";
+        }
+        
+        URL url = new URL(account, originLink, linkcode.trim(), title);
         return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully!", urlRepository.save(url));
+
     }
 
     public Response<URL> updateLink(HttpServletRequest request, String shortenLink, String linkcode, String title) {
