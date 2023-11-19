@@ -39,7 +39,7 @@ public class LoginService {
 
         // Check if status of an account is waiting or reject
         if (!account.getStatus().equals(Status.ACCEPT)) {
-            String url = URL_CLIENT + "/" + "?success=false";
+            String url = URL_CLIENT + "/" + "?success=false&status=" + account.getStatus();
             URI uri = URI.create(url);
             return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
         }
@@ -50,7 +50,7 @@ public class LoginService {
         String token = jwtUtil.generateToken(payload);
 
         // Redirect to URL client
-        String url = URL_CLIENT + "/" + "?success=true&token=" + token;
+        String url = URL_CLIENT + "/" + "?success=true&status=" + account.getStatus() + "&token=" + token;
         URI uri = URI.create(url);
         return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
     }

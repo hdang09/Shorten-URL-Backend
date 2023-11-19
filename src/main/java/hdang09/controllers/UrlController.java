@@ -36,9 +36,10 @@ public class UrlController {
     public Response<URL> updateLink(
             HttpServletRequest request,
             @RequestParam("shortenLink") String shortenLink,
-            @RequestParam("linkcode") String linkcode
+            @RequestParam(name = "linkcode", required = false) String linkcode,
+            @RequestParam(name = "title", required = false) String title
     ) {
-        return service.updateLink(request, shortenLink, linkcode);
+        return service.updateLink(request, shortenLink, linkcode, title);
     }
 
     @Operation(summary = "Delete the shorten link")

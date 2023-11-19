@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @Service
 public class UrlService {
@@ -86,9 +87,9 @@ public class UrlService {
         return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully!", urlRepository.save(url));
     }
 
-    public Response<URL> updateLink(HttpServletRequest request, String shortenLink, String linkcode) {
+    public Response<URL> updateLink(HttpServletRequest request, String shortenLink, String linkcode, String title) {
         // Check whether url exists or not
-        URL url = urlRepository.findByShortenLink(shortenLink);
+        URL url = urlRepository.findByShortenLink(shortenLink.trim());
         if (url == null) {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "Link not found");
         }
@@ -99,20 +100,29 @@ public class UrlService {
             return new Response<>(HttpStatus.FORBIDDEN.value(), "Only creator can update link");
         }
 
-        // Check if shorten link exist
-        boolean isShortenLinkExist = urlRepository.findByShortenLink(linkcode.trim()) != null;
-        if (isShortenLinkExist) {
-            return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
+        // Update linkcode
+        if (linkcode != null && linkcode.trim().length() > 0 && !shortenLink.trim().equals(linkcode.trim())) {
+            // Check if shorten link exist
+            boolean isShortenLinkExist = urlRepository.findByShortenLink(linkcode.trim()) != null;
+            if (isShortenLinkExist) {
+                return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
+            }
+
+            // Update
+            url.setShortenLink(linkcode.trim());
         }
 
-        // Update link
-        url.setShortenLink(linkcode.trim());
+        if (title != null || title.trim().length() > 0) {
+            url.setTitle(title.trim());
+        }
+
+        url.setUpdatedAt(LocalDateTime.now());
         URL updatedUrl = urlRepository.save(url);
         return new Response<>(HttpStatus.OK.value(), "The link is updated successfully", updatedUrl);
     }
 
     public Response<Void> deleteLink(HttpServletRequest request, String shortenLink) {
-        URL url = urlRepository.findByShortenLink(shortenLink);
+        URL url = urlRepository.findByShortenLink(shortenLink.trim());
 
         // Check whether url exists or not
         if (url == null) {
