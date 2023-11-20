@@ -5,6 +5,8 @@ import hdang09.entities.Account;
 import hdang09.entities.JwtPayload;
 import hdang09.repositories.AccountRepository;
 import hdang09.utils.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URI;
 import java.util.Map;
@@ -52,6 +56,15 @@ public class LoginService {
         // Redirect to URL client
         String url = URL_CLIENT + "/" + "?success=true&status=" + account.getStatus() + "&token=" + token;
         URI uri = URI.create(url);
+
+        // Remove JSESSIONID
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        Cookie cookie = new Cookie("JSESSIONID", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        assert response != null;
+        response.addCookie(cookie);
+
         return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
     }
 }
