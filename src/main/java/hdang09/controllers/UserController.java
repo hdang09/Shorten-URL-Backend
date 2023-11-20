@@ -21,11 +21,10 @@ public class UserController {
     AccountService service;
 
 
-    // TODO: Role admin only
     @Operation(summary = "Get an information of a user")
     @GetMapping("/{accountId}")
-    public Response<Account> getInfoUser(@PathVariable("accountId") int accountId) {
-        return service.getUserById(accountId);
+    public Response<Account> getInfoUser(HttpServletRequest request, @PathVariable("accountId") int accountId) {
+        return service.getUserById(request, accountId);
     }
 
     @Operation(summary = "Get an information of current user")

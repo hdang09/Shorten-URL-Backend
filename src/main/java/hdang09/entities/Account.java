@@ -34,7 +34,6 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    // TODO: If front-end runs without bug, remove the line below
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String avatar;
 

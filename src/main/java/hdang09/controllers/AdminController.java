@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,16 +28,16 @@ public class AdminController {
     @Autowired
     AccountService service;
 
-    // TODO: Authorization role with Spring Security and UserDetails
     @Operation(summary = "Get all info users")
     @GetMapping
-    public Response<List<Account>> getAll() {
-        return service.getAll();
+    public Response<List<Account>> getAll(HttpServletRequest request) {
+        return service.getAll(request);
     }
 
     @Operation(summary = "Create an account")
     @PostMapping("/account")
     public Response<Account> createAccount(
+            HttpServletRequest request,
             @Valid @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Create account, enter role user = \"0\", admin = \"1\"",
                     required = true,
@@ -45,19 +46,19 @@ public class AdminController {
                     )
             ) CreateAccountDTO account
     ) {
-        return service.createAccount(account);
+        return service.createAccount(request, account);
     }
 
     @Operation(summary = "Update status for user")
     @PutMapping("/status")
-    public Response<Account> updateStatus(@RequestParam Status status, @RequestParam int accountId) {
-        return service.updateStatus(status, accountId);
+    public Response<Account> updateStatus(HttpServletRequest request, @RequestParam Status status, @RequestParam int accountId) {
+        return service.updateStatus(request, status, accountId);
     }
 
     @Operation(summary = "Update role for user")
     @PutMapping("/role")
-    public Response<Account> updateRole(@RequestParam Role role, @RequestParam int accountId) {
-        return service.updateRole(role, accountId);
+    public Response<Account> updateRole(HttpServletRequest request, @RequestParam Role role, @RequestParam int accountId) {
+        return service.updateRole(request, role, accountId);
     }
 
 }

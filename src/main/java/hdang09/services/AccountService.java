@@ -29,9 +29,15 @@ public class AccountService {
         this.authorizationUtil = authorizationUtil;
     }
 
-    public Response<List<Account>> getAll() {
-        List<Account> accounts = accountRepository.getAll();
+    public Response<List<Account>> getAll(HttpServletRequest request) {
+        // Check role
+        Role currentRole = Role.fromInt(authorizationUtil.getRoleFromAuthorizationHeader(request));
+        if (!currentRole.equals(Role.ADMIN)) {
+            return new Response<>(HttpStatus.UNAUTHORIZED.value(), "The user is not admin");
+        }
 
+        // Get all accounts
+        List<Account> accounts = accountRepository.getAll();
         if (accounts.isEmpty()) {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "The account list is empty");
         }
@@ -39,7 +45,13 @@ public class AccountService {
         return new Response<>(HttpStatus.OK.value(), "Get all user successfully", accounts);
     }
 
-    public Response<Account> createAccount(CreateAccountDTO createAccountDTO) {
+    public Response<Account> createAccount(HttpServletRequest request, CreateAccountDTO createAccountDTO) {
+        // Check role
+        Role currentRole = Role.fromInt(authorizationUtil.getRoleFromAuthorizationHeader(request));
+        if (!currentRole.equals(Role.ADMIN)) {
+            return new Response<>(HttpStatus.UNAUTHORIZED.value(), "The user is not admin");
+        }
+
         try {
             // Map from DTO to entity
             Account account = mapper.fromDtoToEntity(createAccountDTO);
@@ -58,7 +70,13 @@ public class AccountService {
         }
     }
 
-    public Response<Account> updateStatus(Status status, int accountId) {
+    public Response<Account> updateStatus(HttpServletRequest request, Status status, int accountId) {
+        // Check role
+        Role currentRole = Role.fromInt(authorizationUtil.getRoleFromAuthorizationHeader(request));
+        if (!currentRole.equals(Role.ADMIN)) {
+            return new Response<>(HttpStatus.UNAUTHORIZED.value(), "The user is not admin");
+        }
+
         // Find account in database
         Account account = accountRepository.findById(accountId).orElse(null);
 
@@ -77,7 +95,13 @@ public class AccountService {
         return new Response<>(HttpStatus.OK.value(), "Update status successfully", accountRepository.save(account));
     }
 
-    public Response<Account> updateRole(Role role, int accountId) {
+    public Response<Account> updateRole(HttpServletRequest request, Role role, int accountId) {
+        // Check role
+        Role currentRole = Role.fromInt(authorizationUtil.getRoleFromAuthorizationHeader(request));
+        if (!currentRole.equals(Role.ADMIN)) {
+            return new Response<>(HttpStatus.UNAUTHORIZED.value(), "The user is not admin");
+        }
+
         // Find account in database
         Account account = accountRepository.findById(accountId).orElse(null);
 
@@ -98,9 +122,15 @@ public class AccountService {
         return new Response<>(HttpStatus.OK.value(), "Update role successfully", accountRepository.save(account));
     }
 
-    public Response<Account> getUserById(int accountId) {
-        Account account = accountRepository.findById(accountId).orElse(null);
+    public Response<Account> getUserById(HttpServletRequest request, int accountId) {
+        // Check role
+        Role currentRole = Role.fromInt(authorizationUtil.getRoleFromAuthorizationHeader(request));
+        if (!currentRole.equals(Role.ADMIN)) {
+            return new Response<>(HttpStatus.UNAUTHORIZED.value(), "The user is not admin");
+        }
 
+        // Find account in database
+        Account account = accountRepository.findById(accountId).orElse(null);
         if (account == null) {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "Account does not exist");
         }

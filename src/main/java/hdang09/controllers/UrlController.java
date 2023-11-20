@@ -30,9 +30,8 @@ public class UrlController {
         return service.shortenLink(request, originLink, linkcode);
     }
 
-    // TODO: Consider changing to PutMapping
     @Operation(summary = "Edit the shorten link")
-    @PostMapping("/update-link")
+    @PutMapping("/update-link")
     public Response<URL> updateLink(
             HttpServletRequest request,
             @RequestParam("shortenLink") String shortenLink,
