@@ -91,7 +91,7 @@ public class UrlService {
         } catch (IOException e) {
             title = "Shorten URL";
         }
-        
+
         URL url = new URL(account, originLink, linkcode.trim(), title);
         return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully!", urlRepository.save(url));
 
@@ -142,7 +142,7 @@ public class UrlService {
         // Check if only creator can update link
         int currentAccountId = authorizationUtil.getUserIdFromAuthorizationHeader(request);
         if (url.getAccount().getId() != currentAccountId) {
-            return new Response<>(HttpStatus.FORBIDDEN.value(), "Only creator can update link");
+            return new Response<>(HttpStatus.FORBIDDEN.value(), "Only creator can delete link");
         }
 
         // Delete link
