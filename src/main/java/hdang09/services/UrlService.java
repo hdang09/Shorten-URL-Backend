@@ -44,7 +44,10 @@ public class UrlService {
 
     public ResponseEntity<Void> redirect(String linkcode) {
         // Files for SEO
-        if (linkcode.equals("robots.txt") || linkcode.equals("sitemap.xml")) return null;
+        if (linkcode.equals("robots.txt") || linkcode.equals("sitemap.xml")) {
+            return ResponseEntity.status(HttpStatus.OK).build();
+
+        }
 
         // Find url by linkcode
         URL url = urlRepository.findByShortenLink(linkcode.trim());
