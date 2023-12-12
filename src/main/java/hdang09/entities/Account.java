@@ -32,7 +32,7 @@ public class Account {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACCEPT;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String avatar;
