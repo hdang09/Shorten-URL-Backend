@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "URL")
 @RequestMapping("/api/url/shorten")
 @CrossOrigin
-@SecurityRequirement(name = "bearerAuth")
 public class UrlController {
 
     @Autowired
@@ -22,6 +21,7 @@ public class UrlController {
 
     @Operation(summary = "Make the link shorten")
     @PostMapping()
+    @SecurityRequirement(name = "bearerAuth")
     public Response<URL> shortenLink(
             HttpServletRequest request,
             @RequestParam("originLink") String originLink,
@@ -30,8 +30,18 @@ public class UrlController {
         return service.shortenLink(request, originLink, linkcode);
     }
 
+    @Operation(summary = "Make the link shorten without login")
+    @PostMapping("/without-login")
+    public Response<URL> shortenLinkWithoutLogin(
+            @RequestParam("originLink") String originLink,
+            @RequestParam("linkcode") String linkcode
+    ) {
+        return service.shortenLinkWithoutLogin(originLink, linkcode);
+    }
+
     @Operation(summary = "Edit the shorten link")
     @PutMapping("/update-link")
+    @SecurityRequirement(name = "bearerAuth")
     public Response<URL> updateLink(
             HttpServletRequest request,
             @RequestParam("shortenLink") String shortenLink,
@@ -43,6 +53,7 @@ public class UrlController {
 
     @Operation(summary = "Delete the shorten link")
     @DeleteMapping("/delete-link")
+    @SecurityRequirement(name = "bearerAuth")
     public Response<Void> deleteLink(HttpServletRequest request, @RequestParam("shortenLink") String shortenLink) {
         return service.deleteLink(request, shortenLink);
     }

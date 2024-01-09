@@ -16,7 +16,7 @@ import java.util.*;
 @Component
 public class AuthorizationFilter extends OncePerRequestFilter {
 
-    private final List<String> excludedUrls = Arrays.asList("/swagger-ui", "/auth", "/v3/api-docs", "/api/auth/google");
+    private final List<String> excludedUrls = Arrays.asList("/swagger-ui", "/auth", "/v3/api-docs", "/api/auth/google", "/api/url/shorten/without-login");
 
     private final JwtUtil jwtUtil;
 

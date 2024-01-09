@@ -42,7 +42,12 @@ public class URL {
     @JsonBackReference
     private Account account;
 
+    @Column(name = "expired_at")
+    private LocalDateTime expiredAt = null;
+
     public URL(Account account, String originLink, String shortenLink, String title) {
+        final long MAX_EXPIRED_DAY = 7;
+
         this.account = account;
         this.originLink = originLink;
         this.shortenLink = shortenLink;
@@ -50,5 +55,6 @@ public class URL {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.title = title;
+        this.expiredAt = account == null ? LocalDateTime.now().plusDays(MAX_EXPIRED_DAY) : null;
     }
 }

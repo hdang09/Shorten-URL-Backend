@@ -43,12 +43,6 @@ public class UrlService {
     }
 
     public ResponseEntity<Void> redirect(String linkcode) {
-        // Files for SEO
-        if (linkcode.equals("robots.txt") || linkcode.equals("sitemap.xml")) {
-            return ResponseEntity.status(HttpStatus.OK).build();
-
-        }
-
         // Find url by linkcode
         URL url = urlRepository.findByShortenLink(linkcode.trim());
 
@@ -56,6 +50,14 @@ public class UrlService {
         if (url == null) {
             final String NOT_FOUND_PAGE = URL_CLIENT + "/404";
             URI uri = URI.create(NOT_FOUND_PAGE);
+            return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
+        }
+
+        // Check expired url
+        if (url.getExpiredAt() != null && url.getExpiredAt().isBefore(LocalDateTime.now())) {
+            final String NOT_FOUND_PAGE = URL_CLIENT + "/404";
+            URI uri = URI.create(NOT_FOUND_PAGE);
+            urlRepository.delete(url);
             return ResponseEntity.status(HttpStatus.FOUND).location(uri).build();
         }
 
@@ -79,8 +81,14 @@ public class UrlService {
             return new Response<>(HttpStatus.NOT_FOUND.value(), "Account not found");
         }
 
+        return shorten(originLink, linkcode, account);
+    }
+
+    private Response<URL> shorten(String originLink, String linkcode, Account account) {
+        int NO_ACCOUNT_ID = -1;
+
         // Check duplicate origin link in the account
-        URL duplicateUrl = urlRepository.checkDuplicate(originLink.trim(), accountId);
+        URL duplicateUrl = urlRepository.checkDuplicate(originLink.trim(), account == null ? NO_ACCOUNT_ID : account.getId());
         if (duplicateUrl != null) {
             return new Response<>(HttpStatus.OK.value(), "The link created before", duplicateUrl);
         }
@@ -91,7 +99,7 @@ public class UrlService {
             return new Response<>(HttpStatus.FORBIDDEN.value(), "Link code is exist");
         }
 
-        //Get title from document object.
+        // Get title from document object.
         String title;
         try {
             title = Jsoup.connect(originLink.trim()).get().title();
@@ -101,7 +109,6 @@ public class UrlService {
 
         URL url = new URL(account, originLink, linkcode.trim(), title);
         return new Response<>(HttpStatus.CREATED.value(), "Shorten successfully!", urlRepository.save(url));
-
     }
 
     public Response<URL> updateLink(HttpServletRequest request, String shortenLink, String linkcode, String title) {
@@ -155,5 +162,10 @@ public class UrlService {
         // Delete link
         urlRepository.delete(url);
         return new Response<>(HttpStatus.OK.value(), "The link is deleted successfully");
+    }
+
+    public Response<URL> shortenLinkWithoutLogin(String originLink, String linkcode) {
+        Account NO_ACCOUNT = null;
+        return shorten(originLink, linkcode, NO_ACCOUNT);
     }
 }
