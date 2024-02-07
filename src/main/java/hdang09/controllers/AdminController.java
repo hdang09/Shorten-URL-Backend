@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin")
 @Tag(name = "Admin")
-@CrossOrigin
 @SecurityRequirement(name = "bearerAuth")
 public class AdminController {
 

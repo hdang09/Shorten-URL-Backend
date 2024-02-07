@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "URL")
 @RequestMapping("/api/url/shorten")
-@CrossOrigin
 public class UrlController {
 
     @Autowired

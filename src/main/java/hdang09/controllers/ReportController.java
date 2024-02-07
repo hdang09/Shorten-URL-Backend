@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "Report")
 @RequestMapping("/api/report")
-@CrossOrigin
 @SecurityRequirement(name = "bearerAuth")
 public class ReportController {
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Login")
 @RequestMapping("/api/auth")
-@CrossOrigin
 @SecurityRequirement(name = "bearerAuth")
 public class LoginController {
 

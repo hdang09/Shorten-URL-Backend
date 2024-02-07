@@ -19,58 +19,58 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
 
-    - name: Create application.properties file
-      env:
-        APP_PROPERTIES_PATH: ./src/main/resources/application.properties
-      run: |
-        touch $APP_PROPERTIES_PATH
-        echo "${{ secrets.APP_PROPERTIES }}" >> $APP_PROPERTIES_PATH
-
-    - name: Build with Maven
-      run: mvn clean install
-
-#    - name: Restart application in systemctl
-#      run: sudo systemctl restart shorten
-
-#    - name: Kill process port 8080
-#      run: sudo kill -9 $(sudo lsof -t -i:8080)
-
-#    - name: Execute JAR file
-#      env:
-#        JAR_FILE_PATH: /home/ubuntu/actions-runner/_work/Shorten-URL-Backend/Shorten-URL-Backend/target/shorten.jar
-#      run: sudo java -jar $JAR_FILE_PATH
-
-    - name: Build & push Dockerfile image
-      uses: mr-smithers-excellent/docker-build-push@v6
-      with:
-        image: hdang09/shorten-url
-        tags: v1, latest
-        registry: docker.io
-        dockerfile: Dockerfile
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-
-  pull-image:
-    runs-on: self-hosted
-    needs: deploy-image
-
-    steps:
-      - name: Stop and Remove current container
+      - name: Create application.properties file
+        env:
+          APP_PROPERTIES_PATH: ./src/main/resources/application.properties
         run: |
-          sudo docker stop shorten-url-latest || true
-          sudo docker rm shorten-url-latest || true
-      - name: Pull latest image
-        run: sudo docker pull hdang09/shorten-url
-      - name: Start Docker image
-        run: sudo docker run --name shorten-url-latest -d -p 8080:8080 hdang09/shorten-url
+          touch $APP_PROPERTIES_PATH
+          echo "${{ secrets.APP_PROPERTIES }}" >> $APP_PROPERTIES_PATH
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      #    - name: Restart application in systemctl
+      #      run: sudo systemctl restart shorten
+
+      #    - name: Kill process port 8080
+      #      run: sudo kill -9 $(sudo lsof -t -i:8080)
+
+      #    - name: Execute JAR file
+      #      env:
+      #        JAR_FILE_PATH: /home/ubuntu/actions-runner/_work/Shorten-URL-Backend/Shorten-URL-Backend/target/shorten.jar
+      #      run: sudo java -jar $JAR_FILE_PATH
+
+      - name: Build & push Dockerfile image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: hdang09/shorten-url
+          tags: v1, latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+#  pull-image:
+#    runs-on: self-hosted
+#    needs: deploy-image
+#
+#    steps:
+#      - name: Stop and Remove current container
+#        run: |
+#          sudo docker stop shorten-url-latest || true
+#          sudo docker rm shorten-url-latest || true
+#      - name: Pull latest image
+#        run: sudo docker pull hdang09/shorten-url
+#      - name: Start Docker image
+#        run: sudo docker run --name shorten-url-latest -d -p 8080:8080 hdang09/shorten-url

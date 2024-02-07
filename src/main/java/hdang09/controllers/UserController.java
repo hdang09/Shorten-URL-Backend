@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Tag(name = "User")
 @RequestMapping("/api/user")
-@CrossOrigin
 @SecurityRequirement(name = "bearerAuth")
 public class UserController {
 

@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @Tag(name = "Redirect")
-@CrossOrigin
 public class RedirectController {
 
     @Autowired
